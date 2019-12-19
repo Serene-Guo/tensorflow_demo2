@@ -13,11 +13,13 @@ def load_field_idx_dict(dict_file):
                 continue
             field_name = line_arr[0]
             idx_dict_str = line_arr[2]
-            idx_dict = json.loads(idx_dict_str)
+            idx_dict = json.loads(idx_dict_str, encoding='utf-8')
             field_idx_dict[filed_name] = idx_dict
     return field_idx_dict
 
-def read_pretrain_table_file_use_statistics(table_file_name: str, dim: int, offset:int, key_size: int, table_size: int, index_dict:dict, weight_name:str) -> np.ndarray: # index_dict = {'key': value}
+#def read_pretrain_table_file_use_statistics(table_file_name: str, dim: int, offset:int, key_size: int, table_size: int, index_dict:dict, weight_name:str):
+def read_pretrain_table_file_use_statistics(table_file_name, dim, offset, key_size, table_size, index_dict, weight_name):
+    ### np.ndarray # index_dict = {'key': value}
     import struct
     #if table_file_name in pretrain_table_cache:
     #    return pretrain_table_cache[table_file_name]
@@ -28,7 +30,7 @@ def read_pretrain_table_file_use_statistics(table_file_name: str, dim: int, offs
         #local_file_name = str(mmh3.hash(table_file_name)) + '.table'
         local_file_name = tag + '.table'
         tf.logging.info(table_file_name)
-        os.system(f'rm -rf {local_file_name} && hadoop fs -get {table_file_name} {local_file_name}')
+        ##os.system(f'rm -rf {local_file_name} && hadoop fs -get {table_file_name} {local_file_name}')
     else:
         local_file_name = table_file_name
     n_hit = 0
@@ -58,3 +60,8 @@ def read_pretrain_table_file_use_statistics(table_file_name: str, dim: int, offs
     table_cache[table_file_name] = (table, idxtable)
     return table, idxtable
 
+
+
+if __name__ == "__main__":
+    field_dict = load_field_idx_dict("./all_dict")
+    print (field_dict['2121_WordCount'])
