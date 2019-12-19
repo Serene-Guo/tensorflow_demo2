@@ -1,7 +1,24 @@
+import json
+import tensorflow as tf
+import numpy as np
+import os
+
+def load_field_idx_dict(dict_file):
+    field_idx_dict = {}
+    with open(dict_file) as f_dict:
+        for line in f_dict:
+            line = line.strip()
+            line_arr = line.split('\t')
+            if len(line_arr) != 3:
+                continue
+            field_name = line_arr[0]
+            idx_dict_str = line_arr[2]
+            idx_dict = json.loads(idx_dict_str)
+            field_idx_dict[filed_name] = idx_dict
+    return field_idx_dict
 
 def read_pretrain_table_file_use_statistics(table_file_name: str, dim: int, offset:int, key_size: int, table_size: int, index_dict:dict, weight_name:str) -> np.ndarray: # index_dict = {'key': value}
     import struct
-    import mmh3
     #if table_file_name in pretrain_table_cache:
     #    return pretrain_table_cache[table_file_name]
     table = np.ndarray([table_size, dim], np.float32)
