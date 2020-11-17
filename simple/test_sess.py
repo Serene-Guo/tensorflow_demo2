@@ -1,12 +1,15 @@
 import tensorflow as tf
+import sys
 
 sess=tf.Session()
 din_all = tf.random_normal([2, 3, 1], mean=0.0, stddev=1.0)
 
 b = tf.reshape(din_all, [-1, 1, 3])
+ 
+c = tf.nn.softmax(b)
+print (sess.run([din_all, b, c]))
 
-
-print (sess.run([din_all, b]))
+sys.exit(0)
 
 print (sess.run(din_all))
 
@@ -56,4 +59,5 @@ with tf.Session() as sess:
     sess.run(init)
     print(sess.run([new_val, update2, update, state]))
     print (sess.run(update.graph))
+
 
